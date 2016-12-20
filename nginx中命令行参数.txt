@@ -1,0 +1,29 @@
+1. -c [path to config file]
+	为nginx指定一个后缀为conf的配置，来代替缺省，和-t 参数配合使用
+	表示，检查指定配置文件语法是否正确
+	
+2. -t 
+	不运行，而仅仅测试配置文件。nginx 将检查配置文件的语法的正确性，并尝试打开配置文件中所引用到的文件。
+	实质是检查nginx.conf文件的语法是否正确
+	
+3. -v 
+	显示nginx的版本，同样也不会运行nginx ，例如：
+		[root@localhost sbin]# ./nginx -v
+			nginx version: nginx/1.10.1
+4.-V
+	显示nginx的版本、编译器版本和参数配置；不会使nginx运行。例如：
+		[root@localhost sbin]# ./nginx -V
+			nginx version: nginx/1.10.1
+			built by gcc 4.4.7 20120313 (Red Hat 4.4.7-17) (GCC) 
+			configure arguments: --prefix=/usr/local/nginx
+			
+5.-s
+	指定信号量，该参数有如下几个值：
+		stop ：关闭nginx
+		reload ：重载nginx
+		reopen ：重新打开日志
+		quit ：优雅关机
+		
+	格式：./nginx -s quit
+		
+		

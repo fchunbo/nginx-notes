@@ -1,0 +1,52 @@
+	在linux中使用源码来安装nginx时，首先应该使用configure命令进行配置nginx安装环境，
+	结束以后，在nginx的源码路径下创建Makefile文件。并且configure命令可以使用如下的参数：
+	  --prefix=path 
+		定义一个目录来保存服务器文件。该目录用作所有的被configure设置的相对路径，同时也是
+	nginx.conf所有配置包含的文件也是相对该目录的。
+	
+	--sbin-path=path 
+		设置nginx可执行文件的名称（包含路径）
+		
+	--conf-path=path
+		设置nginx.conf配置文件的名称（包含路径）
+		
+	--pid-path=path
+		设置nginx.pid文件的名称（包含路径）,但是nginx.pid文件的位置可以通过在nginx.conf使用
+	pid指令来实质，路径相对于prefix-path
+	
+	--prefix=/etc/nginx
+	--sbin-path=/usr/sbin/nginx
+	--conf-path=/etc/nginx/nginx.conf
+	--error-log-path=/var/log/nginx/error.log
+	--http-log-path=/var/log/nginx/access.log
+	--pid-path=/var/run/nginx.pid
+	--lock-path=/var/run/nginx.lock
+	--http-client-body-temp-path=/var/cache/nginx/client_temp
+	--http-proxy-temp-path=/var/cache/nginx/proxy_temp
+	--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp
+	--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp
+	--http-scgi-temp-path=/var/cache/nginx/scgi_temp
+	--user=nginx
+	--group=nginx
+	--with-http_ssl_module
+	--with-http_realip_module
+	--with-http_addition_module
+	--with-http_sub_module
+	--with-http_dav_module
+	--with-http_flv_module
+	--with-http_mp4_module
+	--with-http_gunzip_module
+	--with-http_gzip_static_module
+	--with-http_random_index_module
+	--with-http_secure_link_module
+	--with-http_stub_status_module
+	--with-http_auth_request_module
+	--with-threads
+	--with-stream
+	--with-stream_ssl_module
+	--with-http_slice_module
+	--with-mail
+	--with-mail_ssl_module
+	--with-file-aio
+	--with-http_v2_module
+	--with-ipv6

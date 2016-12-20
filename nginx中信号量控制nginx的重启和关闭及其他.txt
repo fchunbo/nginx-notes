@@ -1,0 +1,19 @@
+1.nginx中默认是将nginx主进程的pid写入到了${prefix}/logs/nginx.pid文件中。
+可以使用pid指令或在nginx.conf配置文件中使用pid confPath;来配置pid文件的
+位置。
+
+2.使用linux中的kill命令向nginx发送对应的信号量。
+	如：kill -HUP `cat /usr/local/nginx/nginx.pid`
+3.主进程可以处理以下的信号：
+	TERM ,INT : 立即关闭nginx
+	QUIT      : 优雅关机，也就是等待nginx将未处理完的请求处理完毕后在关机。
+	HUP       : 重新加载nginx的配置，并且开始新的配置的工作进程，优雅的关闭旧的工作进程。
+	USR1      : 重新打开工作日志
+	USR2      : 平滑的升级nginx的可执行文件。
+	WINCH     : 优雅的关闭工作进程
+	
+	使用上述的信号量，使用如下命令：
+		kill -Single nginx-pid
+	经常使用的命令为：
+		kill -Single `cat /usr/local/nginx/nginx.pid`
+	其中/usr/local/nginx/nginx.pid 为nginx的pid文件的位置。

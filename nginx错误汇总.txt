@@ -1,0 +1,199 @@
+1.pcre问题
+
+ In file included fromsrc/core/ngx_core.h:72:0,
+
+                 from src/core/nginx.c:9:
+
+src/core/ngx_regex.h:15:18: fatal error:pcre.h: No such file or directory
+
+ #include <pcre.h>
+
+ 
+
+ 解决方案:
+
+yum installpcre-devel 这个是重写模块必须的
+
+非常感谢各位的回答，当时只安装了pcre库，没安装pcre-devel 问题解决了，谢谢各位
+
+ 
+2.openssl版本错误
+
+home/webrtc/live/zlib/ -I objs \
+
+       -oobjs/src/event/ngx_event_openssl.o \
+
+       src/event/ngx_event_openssl.c
+
+src/event/ngx_event_openssl.c: In function‘ngx_ssl_dhparam’:
+
+src/event/ngx_event_openssl.c:954:11:error: dereferencing pointer to incomplete type
+
+        dh->p = BN_bin2bn(dh1024_p, sizeof(dh1024_p), NULL);
+
+          ^
+
+src/event/ngx_event_openssl.c:955:11:error: dereferencing pointer to incomplete type
+
+        dh->g = BN_bin2bn(dh1024_g, sizeof(dh1024_g), NULL);
+
+          ^
+
+src/event/ngx_event_openssl.c:957:15:error: dereferencing pointer to incomplete type
+
+        if (dh->p == NULL || dh->g == NULL) {
+
+               ^
+
+src/event/ngx_event_openssl.c:957:32:error: dereferencing pointer to incomplete type
+
+        if (dh->p == NULL || dh->g == NULL) {
+
+                                ^
+
+src/event/ngx_event_openssl.c: In function‘ngx_ssl_connection_error’:
+
+src/event/ngx_event_openssl.c:1941:21:error: ‘SSL_R_NO_CIPHERS_PASSED’ undeclared (first use in this function)
+
+            || n == SSL_R_NO_CIPHERS_PASSED                          /*  182 */
+
+                     ^
+
+src/event/ngx_event_openssl.c:1941:21:note: each undeclared identifier is reported only once for each function itappears in
+
+make[1]: ***[objs/src/event/ngx_event_openssl.o] Error 1
+
+make[1]: Leaving directory`/usr/local/nginx'
+
+make: *** [build] Error 2
+
+ 
+
+ 
+
+解决方案
+
+The OpenSSL API has changed quite a bit in 1.1.0... thismeans that nginx needs some work to adapt. I recommend you talk with the nginxfolks.
+
+ 
+
+替换openssl的包为1.0.1的版本
+
+ 
+
+ 
+3.pcre版本错误
+
+cd /home/webrtc/live/pcre \
+
+&& make libpcre.la
+
+make[2]: Entering directory`/home/webrtc/live/pcre'
+
+make[2]: *** No rule to make target `libpcre.la'.  Stop.
+
+make[2]: Leaving directory`/home/webrtc/live/pcre'
+
+make[1]: ***[/home/webrtc/live/pcre/.libs/libpcre.a] Error 2
+
+make[1]: Leaving directory`/usr/local/nginx'
+
+make: *** [build] Error 2
+
+ 
+
+解决方案：
+
+pcre2-10.20.tar.gz
+
+切换到pcre-8.39.tar.bz2版本
+
+ 
+
+ 
+
+ 
+
+ 
+4.make install错误
+
+[root@localhost nginx]# make install
+
+make -f objs/Makefile install
+
+make[1]: Entering directory`/usr/local/nginx'
+
+test -d '/usr/local/nginx' || mkdir -p'/usr/local/nginx'
+
+test -d '/usr/local/nginx/sbin' \
+
+       ||mkdir -p '/usr/local/nginx/sbin'
+
+test ! -f '/usr/local/nginx/sbin/nginx' \
+
+       ||mv '/usr/local/nginx/sbin/nginx' \
+
+              '/usr/local/nginx/sbin/nginx.old'
+
+cp objs/nginx '/usr/local/nginx/sbin/nginx'
+
+test -d '/usr/local/nginx/conf' \
+
+       ||mkdir -p '/usr/local/nginx/conf'
+
+cp conf/koi-win '/usr/local/nginx/conf'
+
+cp: ‘conf/koi-win’ and‘/usr/local/nginx/conf/koi-win’ are the same file
+
+make[1]: *** [install] Error 1
+
+make[1]: Leaving directory`/usr/local/nginx'
+
+make: *** [install] Error 2
+
+[root@localhost nginx]# mv /usr/local/nginx
+
+mv: missing destination file operand after‘/usr/local/nginx’
+
+Try 'mv --help' for more information.
+
+ 
+
+ 
+
+解决方案：
+
+nginx源码包目录和安装目录(配置的)，产生了冲突
+
+ 
+
+把nginx源码包从/usr/local/nginx  拷贝到/home/username/nginx
+
+重新makeinstall
+
+ 
+5.nginx reload出错
+
+ 
+
+[root@localhost sbin]# ./nginx -s reload
+
+nginx: [error] open()"/usr/local/nginx/logs/nginx.pid" failed (2: No such file ordirectory)
+
+ 
+
+ 
+
+解决方案
+
+[root@localhostsbin]# ./nginx -c /usr/local/nginx/conf/nginx.conf
+
+//查看文件是否存在
+
+[root@localhostsbin]# ls /usr/local/nginx/logs/
+
+access.log  error.log nginx.pid
+
+ 
+
+使用nginx -c的参数指定nginx.conf文件的位置

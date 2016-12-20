@@ -1,0 +1,5 @@
+1.测试nginx中conf文件的语法是否正确
+	1)进入到${prefix}/sbin
+	2)输入如下命令：
+		./nginx -t
+	来测试${prefix}/conf/下的conf文件的语法是否正确。
