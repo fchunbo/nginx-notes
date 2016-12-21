@@ -1,0 +1,17 @@
+1.在nginx中静态资源的配置如下：
+	1）server块指令中配置：
+		server{
+			location /images/ {
+				root /data;
+			}
+		}
+	这样配置以后，访问静态资源时会去访问/data/images/下的去查找静态文件。
+	
+	对于css、js这样的文件可以使用同样的方法配置。
+	
+	2）使用模糊匹配
+		server {
+			location ~\.(gif|png|jpg)$ {
+				root /data/images;
+			}
+		}
