@@ -1,0 +1,9 @@
+1.在nginx中配置反向代理时，需要注意：
+	1）proxy_set_header ：添加代理请求头信息。
+	2）proxy_set_header Host $host; #将代理服务器的ip地址或域名设置为Host的值
+	3）proxy_set_header Host $proxy_host;#将被代理服务器的ip地址或域名设置为Host的值
+	
+但是一般设置使用"proxy_set_header Host $host;"，如果要获取被代理服务器的真实的ip地址
+可以通过如下设置：
+	proxy_set_header X-Real-IP $remote_addr;#获取被代理服务器的真实ip地址
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;#可以获取被代理服务器的ip地址。
